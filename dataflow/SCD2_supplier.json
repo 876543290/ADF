@@ -1,0 +1,213 @@
+{
+	"name": "SCD2_supplier",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Integration_Supplier_Staging",
+						"type": "DatasetReference"
+					},
+					"name": "sourceSupplierINT"
+				},
+				{
+					"dataset": {
+						"referenceName": "Dimention_Supplier",
+						"type": "DatasetReference"
+					},
+					"name": "DimentionSupplier"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Dimention_Supplier",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "Dimention_Supplier",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "select1"
+				},
+				{
+					"name": "lookup1"
+				},
+				{
+					"name": "ExistingRows"
+				},
+				{
+					"name": "select2"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "alterRow1"
+				},
+				{
+					"name": "derivedColumn2"
+				},
+				{
+					"name": "derivedColumn3"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Supplier Staging Key} as integer,",
+				"          {WWI Supplier ID} as integer,",
+				"          Supplier as string,",
+				"          Category as string,",
+				"          {Primary Contact} as string,",
+				"          {Supplier Reference} as string,",
+				"          {Payment Days} as integer,",
+				"          {Postal Code} as string,",
+				"          {Valid From} as timestamp,",
+				"          {Valid To} as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> sourceSupplierINT",
+				"source(output(",
+				"          {Supplier Key} as integer,",
+				"          {WWI Supplier ID} as integer,",
+				"          Supplier as string,",
+				"          Category as string,",
+				"          {Primary Contact} as string,",
+				"          {Supplier Reference} as string,",
+				"          {Payment Days} as integer,",
+				"          {Postal Code} as string,",
+				"          {Valid From} as timestamp,",
+				"          {Valid To} as timestamp,",
+				"          {Lineage Key} as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DimentionSupplier",
+				"DimentionSupplier select(mapColumn(",
+				"          {SQL_Supplier Key} = {Supplier Key},",
+				"          {SQL_WWI Supplier ID} = {WWI Supplier ID},",
+				"          SQL_Supplier = Supplier,",
+				"          SQL_Category = Category,",
+				"          {SQL_Primary Contact} = {Primary Contact},",
+				"          {SQL_Supplier Reference} = {Supplier Reference},",
+				"          {SQL_Payment Days} = {Payment Days},",
+				"          {SQL_Postal Code} = {Postal Code},",
+				"          {SQL_Valid From} = {Valid From},",
+				"          {SQL_Valid To} = {Valid To},",
+				"          {SQL_Lineage Key} = {Lineage Key}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"derivedColumn3, select1 lookup({WWI Supplier ID} == {SQL_WWI Supplier ID},",
+				"     multiple: true,",
+				"     broadcast: 'auto')~> lookup1",
+				"lookup1 filter(!isNull({SQL_Supplier Key})) ~> ExistingRows",
+				"ExistingRows select(mapColumn(",
+				"          {SQL_Supplier Key},",
+				"          {SQL_WWI Supplier ID},",
+				"          SQL_Supplier,",
+				"          SQL_Category,",
+				"          {SQL_Primary Contact},",
+				"          {SQL_Supplier Reference},",
+				"          {SQL_Payment Days},",
+				"          {SQL_Postal Code},",
+				"          {SQL_Valid From},",
+				"          {SQL_Valid To},",
+				"          {SQL_Lineage Key}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select2",
+				"select2 derive({SQL_Valid To} = currentUTC()) ~> derivedColumn1",
+				"derivedColumn1 alterRow(updateIf(1==1)) ~> alterRow1",
+				"sourceSupplierINT derive({Lineage Key} = 0) ~> derivedColumn2",
+				"sourceSupplierINT derive({Lineage Key} = 0) ~> derivedColumn3",
+				"derivedColumn2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          {Supplier Key} as integer,",
+				"          {WWI Supplier ID} as integer,",
+				"          Supplier as string,",
+				"          Category as string,",
+				"          {Primary Contact} as string,",
+				"          {Supplier Reference} as string,",
+				"          {Payment Days} as integer,",
+				"          {Postal Code} as string,",
+				"          {Valid From} as timestamp,",
+				"          {Valid To} as timestamp,",
+				"          {Lineage Key} as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     saveOrder: 2,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          {WWI Supplier ID},",
+				"          Supplier,",
+				"          Category,",
+				"          {Primary Contact},",
+				"          {Supplier Reference},",
+				"          {Payment Days},",
+				"          {Postal Code},",
+				"          {Valid From},",
+				"          {Valid To},",
+				"          {Lineage Key}",
+				"     )) ~> sink1",
+				"alterRow1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          {Supplier Key} as integer,",
+				"          {WWI Supplier ID} as integer,",
+				"          Supplier as string,",
+				"          Category as string,",
+				"          {Primary Contact} as string,",
+				"          {Supplier Reference} as string,",
+				"          {Payment Days} as integer,",
+				"          {Postal Code} as string,",
+				"          {Valid From} as timestamp,",
+				"          {Valid To} as timestamp,",
+				"          {Lineage Key} as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:true,",
+				"     upsertable:false,",
+				"     keys:['Supplier Key'],",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     saveOrder: 1,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          {Supplier Key} = {SQL_Supplier Key},",
+				"          {WWI Supplier ID} = {SQL_WWI Supplier ID},",
+				"          Supplier = SQL_Supplier,",
+				"          Category = SQL_Category,",
+				"          {Primary Contact} = {SQL_Primary Contact},",
+				"          {Supplier Reference} = {SQL_Supplier Reference},",
+				"          {Payment Days} = {SQL_Payment Days},",
+				"          {Postal Code} = {SQL_Postal Code},",
+				"          {Valid From} = {SQL_Valid From},",
+				"          {Valid To} = {SQL_Valid To},",
+				"          {Lineage Key} = {SQL_Lineage Key}",
+				"     )) ~> sink2"
+			]
+		}
+	}
+}

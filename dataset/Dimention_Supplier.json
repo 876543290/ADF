@@ -1,0 +1,71 @@
+{
+	"name": "Dimention_Supplier",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1_WWIDW",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "table_in_dw"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Supplier Key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "WWI Supplier ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Supplier",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Category",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Primary Contact",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Supplier Reference",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Payment Days",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Postal Code",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Valid From",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "Valid To",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "Lineage Key",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "Dimension",
+			"table": "Supplier"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

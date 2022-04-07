@@ -1,0 +1,189 @@
+{
+	"name": "dw_to_parquet",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Dimention_Supplier",
+						"type": "DatasetReference"
+					},
+					"name": "DimentionSupplier"
+				},
+				{
+					"dataset": {
+						"referenceName": "Dimension_StockItem",
+						"type": "DatasetReference"
+					},
+					"name": "DimentionStockItem"
+				},
+				{
+					"dataset": {
+						"referenceName": "Fact_Purchase",
+						"type": "DatasetReference"
+					},
+					"name": "FactPurchase"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ParquetSupplier",
+						"type": "DatasetReference"
+					},
+					"name": "parquetSupplier"
+				},
+				{
+					"dataset": {
+						"referenceName": "ParquetStockItem",
+						"type": "DatasetReference"
+					},
+					"name": "parquetStockItem"
+				},
+				{
+					"dataset": {
+						"referenceName": "ParquetPurchase",
+						"type": "DatasetReference"
+					},
+					"name": "parquetPurchase"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          {Supplier Key} as integer,",
+				"          {WWI Supplier ID} as integer,",
+				"          Supplier as string,",
+				"          Category as string,",
+				"          {Primary Contact} as string,",
+				"          {Supplier Reference} as string,",
+				"          {Payment Days} as integer,",
+				"          {Postal Code} as string,",
+				"          {Valid From} as timestamp,",
+				"          {Valid To} as timestamp,",
+				"          {Lineage Key} as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DimentionSupplier",
+				"source(output(",
+				"          {Stock Item Key} as integer,",
+				"          {WWI Stock Item ID} as integer,",
+				"          {Stock Item} as string,",
+				"          Color as string,",
+				"          {Selling Package} as string,",
+				"          {Buying Package} as string,",
+				"          Brand as string,",
+				"          Size as string,",
+				"          {Lead Time Days} as integer,",
+				"          {Quantity Per Outer} as integer,",
+				"          {Is Chiller Stock} as boolean,",
+				"          Barcode as string,",
+				"          {Tax Rate} as decimal(18,3),",
+				"          {Unit Price} as decimal(18,2),",
+				"          {Recommended Retail Price} as decimal(18,2),",
+				"          {Typical Weight Per Unit} as decimal(18,3),",
+				"          Photo as binary,",
+				"          {Valid From} as timestamp,",
+				"          {Valid To} as timestamp,",
+				"          {Lineage Key} as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DimentionStockItem",
+				"source(output(",
+				"          {Purchase Key} as long,",
+				"          {Date Key} as date,",
+				"          {Supplier Key} as integer,",
+				"          {Stock Item Key} as integer,",
+				"          {WWI Purchase Order ID} as integer,",
+				"          {Ordered Outers} as integer,",
+				"          {Ordered Quantity} as integer,",
+				"          {Received Outers} as integer,",
+				"          Package as string,",
+				"          {Is Order Finalized} as boolean,",
+				"          {Lineage Key} as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> FactPurchase",
+				"DimentionSupplier sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          SupplierKey = {Supplier Key},",
+				"          WWISupplierID = {WWI Supplier ID},",
+				"          Supplier,",
+				"          Category,",
+				"          PrimaryContact = {Primary Contact},",
+				"          SupplierReference = {Supplier Reference},",
+				"          PaymentDays = {Payment Days},",
+				"          PostalCode = {Postal Code},",
+				"          ValidFrom = {Valid From},",
+				"          ValidTo = {Valid To},",
+				"          LineageKey = {Lineage Key}",
+				"     )) ~> parquetSupplier",
+				"DimentionStockItem sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          StockItemKey = {Stock Item Key},",
+				"          WWIStockItemID = {WWI Stock Item ID},",
+				"          StockItem = {Stock Item},",
+				"          Color,",
+				"          SellingPackage = {Selling Package},",
+				"          BuyingPackage = {Buying Package},",
+				"          Brand,",
+				"          Size,",
+				"          LeadTimeDays = {Lead Time Days},",
+				"          QuantityPerOuter = {Quantity Per Outer},",
+				"          IsChillerStock = {Is Chiller Stock},",
+				"          Barcode,",
+				"          TaxRate = {Tax Rate},",
+				"          UnitPrice = {Unit Price},",
+				"          RecommendedRetailPrice = {Recommended Retail Price},",
+				"          TypicalWeightPerUnit = {Typical Weight Per Unit},",
+				"          Photo,",
+				"          ValidFrom = {Valid From},",
+				"          ValidTo = {Valid To},",
+				"          LineageKey = {Lineage Key}",
+				"     )) ~> parquetStockItem",
+				"FactPurchase sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          PurchaseKey = {Purchase Key},",
+				"          DateKey = {Date Key},",
+				"          SupplierKey = {Supplier Key},",
+				"          StockItemKey = {Stock Item Key},",
+				"          WWIPurchaseOrderID = {WWI Purchase Order ID},",
+				"          OrderedOuters = {Ordered Outers},",
+				"          OrderedQuantity = {Ordered Quantity},",
+				"          ReceivedOuters = {Received Outers},",
+				"          Package,",
+				"          IsOrderFinalized = {Is Order Finalized},",
+				"          LineageKey = {Lineage Key}",
+				"     )) ~> parquetPurchase"
+			]
+		}
+	}
+}

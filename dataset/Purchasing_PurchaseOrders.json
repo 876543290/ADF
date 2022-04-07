@@ -1,0 +1,79 @@
+{
+	"name": "Purchasing_PurchaseOrders",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase2",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "tables_in_ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "PurchaseOrderID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SupplierID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "OrderDate",
+				"type": "date"
+			},
+			{
+				"name": "DeliveryMethodID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ContactPersonID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ExpectedDeliveryDate",
+				"type": "date"
+			},
+			{
+				"name": "SupplierReference",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IsOrderFinalized",
+				"type": "bit"
+			},
+			{
+				"name": "Comments",
+				"type": "nvarchar"
+			},
+			{
+				"name": "InternalComments",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LastEditedBy",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "LastEditedWhen",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "ingestTime",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "Purchasing",
+			"table": "PurchaseOrders"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

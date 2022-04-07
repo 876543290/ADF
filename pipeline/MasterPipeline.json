@@ -1,0 +1,143 @@
+{
+	"name": "MasterPipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "copydata_to_ODS",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "copydata_to_ODS",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "ods_to_int_dim",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "copydata_to_ODS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "ods_to_int_dim",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "ods_to_int_fact",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "ods_to_int_dim",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "ods_to_int_fact",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "int_to_dw_supplier",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "ods_to_int_fact",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "int_to_dw_supplier",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "int_to_dw_stockItem",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "int_to_dw_supplier",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "int_to_dw_stockItem",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "int_to_dw_purchase",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "int_to_dw_stockItem",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "int_to_dw_purchase",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "dw_to_parquet",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "int_to_dw_purchase",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "dw_to_parquet",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2022-03-28T17:17:51Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

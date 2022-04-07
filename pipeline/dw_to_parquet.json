@@ -1,0 +1,34 @@
+{
+	"name": "dw_to_parquet",
+	"properties": {
+		"activities": [
+			{
+				"name": "dw_to_parquet",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "dw_to_parquet",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2022-03-28T17:15:16Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

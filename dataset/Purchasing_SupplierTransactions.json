@@ -1,0 +1,100 @@
+{
+	"name": "Purchasing_SupplierTransactions",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase2",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "tables_in_ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SupplierTransactionID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SupplierID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TransactionTypeID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PurchaseOrderID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PaymentMethodID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SupplierInvoiceNumber",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TransactionDate",
+				"type": "date"
+			},
+			{
+				"name": "AmountExcludingTax",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "TaxAmount",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "TransactionAmount",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "OutstandingBalance",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "FinalizationDate",
+				"type": "date"
+			},
+			{
+				"name": "IsFinalized",
+				"type": "bit"
+			},
+			{
+				"name": "LastEditedBy",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "LastEditedWhen",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "ingestTime",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "Purchasing",
+			"table": "SupplierTransactions"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

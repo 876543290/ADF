@@ -1,0 +1,34 @@
+{
+	"name": "int_to_dw_supplier",
+	"properties": {
+		"activities": [
+			{
+				"name": "SCD2_supplier",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "SCD2_supplier",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2022-03-28T05:42:12Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

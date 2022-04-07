@@ -1,0 +1,91 @@
+{
+	"name": "int_to_dw_purchase",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Integration_Purchase_Staging",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Fact_Purchase",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Purchase Staging Key} as long,",
+				"          {Date Key} as date,",
+				"          {Supplier Key} as integer,",
+				"          {Stock Item Key} as integer,",
+				"          {WWI Purchase Order ID} as integer,",
+				"          {Ordered Outers} as integer,",
+				"          {Ordered Quantity} as integer,",
+				"          {Received Outers} as integer,",
+				"          Package as string,",
+				"          {Is Order Finalized} as boolean,",
+				"          {WWI Supplier ID} as integer,",
+				"          {WWI Stock Item ID} as integer,",
+				"          {Last Modified When} as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1",
+				"source1 derive({Lineage Key} = 0,",
+				"          {Date Key} = '2013-01-01T00:00:00.0000000',",
+				"          {Ordered Quantity} = 0,",
+				"          {Last Modified When} = currentUTC()) ~> derivedColumn1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          {Purchase Key} as long,",
+				"          {Date Key} as date,",
+				"          {Supplier Key} as integer,",
+				"          {Stock Item Key} as integer,",
+				"          {WWI Purchase Order ID} as integer,",
+				"          {Ordered Outers} as integer,",
+				"          {Ordered Quantity} as integer,",
+				"          {Received Outers} as integer,",
+				"          Package as string,",
+				"          {Is Order Finalized} as boolean,",
+				"          {Lineage Key} as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          {Date Key},",
+				"          {Supplier Key},",
+				"          {Stock Item Key},",
+				"          {WWI Purchase Order ID},",
+				"          {Ordered Outers},",
+				"          {Ordered Quantity},",
+				"          {Received Outers},",
+				"          Package,",
+				"          {Is Order Finalized},",
+				"          {Lineage Key}",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}

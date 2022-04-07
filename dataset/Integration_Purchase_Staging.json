@@ -1,0 +1,83 @@
+{
+	"name": "Integration_Purchase_Staging",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1_WWIDW",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "table_in_integration"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Purchase Staging Key",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "Date Key",
+				"type": "date"
+			},
+			{
+				"name": "Supplier Key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Stock Item Key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "WWI Purchase Order ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Ordered Outers",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Ordered Quantity",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Received Outers",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Package",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Is Order Finalized",
+				"type": "bit"
+			},
+			{
+				"name": "WWI Supplier ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "WWI Stock Item ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Last Modified When",
+				"type": "datetime2",
+				"scale": 7
+			}
+		],
+		"typeProperties": {
+			"schema": "Integration",
+			"table": "Purchase_Staging"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,81 @@
+{
+	"name": "Warehouse_StockItemTransactions",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase2",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "tables_in_ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "StockItemTransactionID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "StockItemID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TransactionTypeID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CustomerID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "InvoiceID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SupplierID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PurchaseOrderID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TransactionOccurredWhen",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "Quantity",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 3
+			},
+			{
+				"name": "LastEditedBy",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "LastEditedWhen",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "ingestTime",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "Warehouse",
+			"table": "StockItemTransactions"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,49 @@
+{
+	"name": "Application_DeliveryMethods",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase2",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "tables_in_ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DeliveryMethodID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DeliveryMethodName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LastEditedBy",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ValidFrom",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "ValidTo",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "ingestTime",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "Application",
+			"table": "DeliveryMethods"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

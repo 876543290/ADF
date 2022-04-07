@@ -1,0 +1,111 @@
+{
+	"name": "Integration_StockItem_Staging",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1_WWIDW",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "table_in_integration"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Stock Item Staging Key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "WWI Stock Item ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Stock Item",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Color",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Selling Package",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Buying Package",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Brand",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Size",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Lead Time Days",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Quantity Per Outer",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Is Chiller Stock",
+				"type": "bit"
+			},
+			{
+				"name": "Barcode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Tax Rate",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 3
+			},
+			{
+				"name": "Unit Price",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "Recommended Retail Price",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "Typical Weight Per Unit",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 3
+			},
+			{
+				"name": "Photo",
+				"type": "varbinary"
+			},
+			{
+				"name": "Valid From",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "Valid To",
+				"type": "datetime2",
+				"scale": 7
+			}
+		],
+		"typeProperties": {
+			"schema": "Integration",
+			"table": "StockItem_Staging"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

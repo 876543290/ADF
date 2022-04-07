@@ -1,0 +1,9 @@
+{
+	"name": "firstzcleonie1",
+	"location": "eastus2",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "29e64e92-aa55-47f1-a88d-ab1ca975a57a",
+		"tenantId": "a8eec281-aaa3-4dae-ac9b-9a398b9215e7"
+	}
+}
